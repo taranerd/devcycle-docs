@@ -1,54 +1,10 @@
 ---
-title: Node.js SDK
-sidebar_position: 1
+title: DevCycle Node.js SDK Usage
+sidebar_label: Usage
+sidebar_position: 3
 ---
 
-# DevCycle NodeJS Server SDK
-
-The NodeJS Server SDK for DevCycle.
-
-This SDK uses local bucketing to perform all user segmentation and bucketing locally in the SDK, 
-providing immediate responses to variable and feature requests for a user. 
-
-The SDK will download the latest version of your DevCycle environments configuration from a CDN on initialization,
-and will periodically poll the CDN for configuration changes.
-
-The SDK is available as a package on npm. It is also open source and can be viewed on Github.
-
-[![Npm package version](https://badgen.net/npm/v/@devcycle/nodejs-server-sdk)](https://www.npmjs.com/package/@devcycle/nodejs-server-sdk)
-[![GitHub](https://img.shields.io/github/stars/devcyclehq/js-sdks.svg?style=social&label=Star&maxAge=2592000)](https://github.com/devcyclehq/js-sdks)
-
-## Installation
-
-Our library can be found on npm and installed by the following:
-
-```
-npm install --save @devcycle/nodejs-server-sdk
-```
-
-## Getting Started
-
-To use the DVC Server SDK in your project, import the `@devcycle/nodejs-server-sdk` package and 
-call `initialize` with your DVC SDK server key. You may optionally `await` for the client
-to be initialized.
-
-JS Example:
-```javascript
-const DVC = require('@devcycle/nodejs-server-sdk')
-
-const dvcClient = await DVC.initialize('<DVC_SDK_SERVER_KEY>').onClientInitialized()
-```
-
-Typescript Example:
-```typescript
-import { initialize } from '@devcycle/nodejs-server-sdk'
-
-const dvcClient = await initialize('<DVC_SDK_SERVER_KEY>').onClientInitialized()
-```
-
-## Usage
-
-### Initialization Options
+## Initialization Options
 
 The SDK exposes various initialization options which can be set on the `initialization()` method:
 
@@ -75,7 +31,7 @@ const dvcClient = await DVC.initialize('<DVC_SDK_SERVER_KEY>', {
 | maxEventQueueSize  | Number | Controls the maximum size the event queue can grow to until events are dropped. Defaults to `2000`.                                                                          |
 | apiProxyURL | String | Allows the SDK to communicate with a proxy of DVC bucketing API / client SDK API.                                                                                            |
 
-### User Object
+## User Object
 
 The full user data must be passed into every method. The only required field is the `user_id`. 
 The rest are optional and are used by the system for user segmentation into variables and features.
@@ -93,7 +49,7 @@ const user = {
 const variable = dvcClient.variable(user, 'test-feature', false)
 ```
 
-### Get and Use Variable by Key
+## Get and Use Variable by Key
 
 To get values from your Variables, `dvcClient.variable()` is used to fetch variable values using the user data, 
 variable `key`, coupled with a default value for the variable. The default variable will be used in cases where
@@ -112,7 +68,7 @@ if (variable.value) {
 ```
 See [getVariableByKey](/bucketing-api/#operation/getVariableByKey) on the Bucketing API for the variable response format.
 
-### Getting All Variables
+## Getting All Variables
 
 To grab all the segmented variables for a user:
 
@@ -121,7 +77,7 @@ const variables = dvcClient.allVariables(user)
 ```
 See [getVariables](/bucketing-api/#operation/getVariables) on the Bucketing API for the variable response format.
 
-### Getting All Features
+## Getting All Features
 
 You can fetch all segmented features for a user:
 
@@ -132,7 +88,7 @@ const features = dvcClient.allFeatures(user)
 ```
 See [getFeatures](/bucketing-api/#operation/getFeatures) on the Bucketing API for the feature response format.
 
-### Tracking User Events
+## Tracking User Events
 
 Track a custom event for a user, pass in the user and event object.
 
@@ -150,12 +106,12 @@ const event: DVCEvent = {
 dvcClient.track(user, event)
 ```
 
-### Flush Events
+## Flush Events
 
 If you would like to force a flush of events in the event queue, you can call `flushEvents()`. 
 Events will automatically be flushed according to the `eventFlushIntervalMS` option.
 
-### EdgeDB
+## EdgeDB
 :::info
 
 EdgeDB is only available with Cloud Bucketing and does not have any impact on Local Bucketing.
@@ -189,7 +145,7 @@ This will send a request to our EdgeDB API to save the custom data under the use
 
 In the example, Email and Country are associated to the user `test_user`. In your next variable call for the same `user_id`, you may omit any of the data you've sent already as it will be pulled from the EdgeDB storage when segmenting to experiments and features.
 
-### Close Client
+## Close Client
 
 If you need to close the DVCClient object to stop all open connections and timers, call `dvcClient.close()`. 
 This can be useful for cleaning DVCClient objects during unit testing.
