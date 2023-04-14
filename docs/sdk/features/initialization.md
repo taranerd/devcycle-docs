@@ -51,5 +51,5 @@ If a variable is first read from the cache and has a listener for [realtime upda
 
 ### [• Java Local SDK](/sdk/server-side-sdks/java-local#installation)
 
-### [• Java Cloud SDK](/sdk/server-side-sdks/java-cloud#installation)
+### [• Java Cloud SDK](/sdk/server-side-sdks/java-cloud/java-cloud-usage#installation)
 
